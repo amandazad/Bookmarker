@@ -83,8 +83,9 @@ def move_book(books, wishlist):
                     del wishlist[wish_move -1]
                     books.append(book)
                     print("Your book now is in read books!")
+                    break
                 except:
-                    print("Invalid book.")
+                    print("Invalid book, please select a number.")
         except:
             print("Please, choose a number from 1-2.")
 

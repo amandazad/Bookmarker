@@ -3,12 +3,15 @@ def add_book_wish(wishlist):
     wishlist.append({"name": name_wishlist})
     print("The book was succesfully added :)")
 
+def sort_key(d):
+    return d["name"]
+
 def edit_shelf_wish(wishlist):
     while True:
         try:
-            edit_wishlist = int(input(" 1. Sort A-Z \n 2. Reverse List \n 3. Clear List \n How do you want to edit?"))
+            edit_wishlist = int(input(" 1. Sort A-Z \n 2. Reverse List \n 3. Clear List \n How do you want to edit? "))
             if edit_wishlist == 1:
-                wishlist.sort()
+                wishlist.sort(key=sort_key)
                 print("Your wishlist is now sorted from A-Z!")
             elif edit_wishlist == 2:
                 wishlist.reverse()
