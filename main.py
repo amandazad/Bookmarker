@@ -83,10 +83,13 @@ def wishlist_shelf(books, wishlist):
 def move_book(books, wishlist):
     #it is going to move books between shelves
     while True:
-        if len(books, wishlist) == 0:
-            print("There's no books in your bookshelf, please add one book.")
-            return
         try:
+            if len(wishlist) == 0:
+                print("There's no books in your bookshelf, please add one book.")
+                return
+            if len(books) == 0:
+                print("There's no books in your bookshelf, please add one book.")
+                return
             book_name = int(input(" 1. Move from wishlist to read books \n 2. Move from read books to wishlist \n What do you want to do? "))
             if book_name == 1:
                 #move from wishlist to read books
