@@ -12,6 +12,7 @@ def find_books(lst, ask_name_book):
     return result_list
 
 def find_unique_book(lst, ask_name_book):
+    import CLI
     #to find the exact book, not all with that word
     books = find_books(lst, ask_name_book)
     if len(books) == 1:
@@ -20,10 +21,11 @@ def find_unique_book(lst, ask_name_book):
         index = 0
         for book in books:
             index += 1
-            print(f"{index}. {book['name']}")
-        exact_book = int(input("What is the NUMBER of the book you are looking for? "))
+            CLI.show_to_user(f"{index}. {book['name']}")
+        exact_book = CLI.request_exact_book()
+        exact_book = int(exact_book)
         return books[exact_book - 1]
-    print("You don't have this book on the list.")
+    CLI.show_to_user("You don't have this book on the list.")
     return None
 
 
