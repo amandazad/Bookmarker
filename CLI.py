@@ -42,7 +42,7 @@ def request_wishlist():
     option = input("Choose an option: ")
     return option
 
-def request_move_books():
+def request_move_books_name():
     book_name = input(" 1. Move from wishlist to read books \n 2. Move from read books to wishlist \n What do you want to do? ")
     return book_name
 

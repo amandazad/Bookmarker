@@ -1,17 +1,24 @@
 from utils import save_data
 import CLI
 
+
 def add_book_wish(books, wishlist):
     """
     This adds some book in the wishlist bookshelf.
     """
     name_book = CLI.request_name_book_add()
-    wishlist.append({"name": name_book})
-    save_data(books, wishlist)
-    CLI.show_to_user("The book was succesfully added :)")
+    if name_book == '' or name_book.isspace():
+        CLI.show_to_user("You need to write a name for the book.")
+        return
+    else:
+        wishlist.append({"name": name_book})
+        save_data(books, wishlist)
+        CLI.show_to_user("The book was succesfully added :)")
+
 
 def sort_key(d):
     return d["name"]
+
 
 def edit_shelf_wish(books, wishlist):
     """
@@ -22,7 +29,7 @@ def edit_shelf_wish(books, wishlist):
             CLI.show_to_user("There's no books in your bookshelf, please add one book.")
             return
         try:
-            edit_wishlist = CLI.request_edit_wishlist
+            edit_wishlist = CLI.request_edit_wishlist()
             edit_wishlist = int(edit_wishlist)
             if edit_wishlist == 1:
                 #this will sort the list from A-Z
@@ -45,6 +52,7 @@ def edit_shelf_wish(books, wishlist):
         except Exception:
             CLI.show_to_user("You need to choose a number from 1-3")
 
+
 def remove_book_wish(books, wishlist):
     """
     This functions remove some book from the wishlist.
@@ -65,6 +73,7 @@ def remove_book_wish(books, wishlist):
 
         CLI.show_to_user("This book is not in your wishlist bookshelf. Please try again!")
 
+
 def random_book_wish(books, wishlist):
     """
     This will provide a random book name from the wishlist.
@@ -75,6 +84,7 @@ def random_book_wish(books, wishlist):
     import random
     book_wish = random.choice(wishlist)
     CLI.show_to_user(f"We chose: {book_wish['name']} for you! ")
+
 
 def show_bookshelf_wish(books, wishlist):
     """

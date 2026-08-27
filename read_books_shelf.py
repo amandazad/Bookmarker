@@ -7,12 +7,18 @@ def add_book_read(books, wishlist):
     This adds some book in the read bookshelf.
     """
     name_book = CLI.request_name_book_add()
-    books.append({"name": name_book})
-    save_data(books, wishlist)
-    CLI.show_to_user("The book was succesfully added :)")
+    if name_book == '' or name_book.isspace():
+        CLI.show_to_user("You need to write a name for the book.")
+        return
+    else:
+        books.append({"name": name_book})
+        save_data(books, wishlist)
+        CLI.show_to_user("The book was succesfully added :)")
+
 
 def sort_key(d):
     return d["name"]
+
 
 def edit_shelf_read(books, wishlist):
     """
@@ -41,6 +47,7 @@ def edit_shelf_read(books, wishlist):
         except Exception:
             CLI.show_to_user("You need to choose a number from 1-2")
 
+
 def remove_book_read(books, wishlist):
     """
     This functions remove some book from the read list.
@@ -49,7 +56,6 @@ def remove_book_read(books, wishlist):
         if len(books) == 0:
             CLI.show_to_user("There's no books in your bookshelf, please add one book.")
             return
-        show_bookshelf_read(books, wishlist)
         remove_book = CLI.request_name_book_remove_read(books, wishlist)
         i = 0
         for rem in books:
@@ -60,6 +66,7 @@ def remove_book_read(books, wishlist):
                 return
             i += 1
         CLI.show_to_user("This book is not in your bookshelf. Please try again!")
+
 
 def info_book_read(books, wishlist):
     """
@@ -92,7 +99,7 @@ def info_book_read(books, wishlist):
                     book = find_unique_book(books, name_book)
                     if book is None:
                         continue
-                    date = CLI.request_date
+                    date = CLI.request_date()
                     book["date"] = date
                     save_data(books, wishlist)
                     CLI.show_to_user("Now, the date is available in option 5!")
@@ -100,7 +107,6 @@ def info_book_read(books, wishlist):
             if choice == 3:
                 #this will add the aditional informations that the user wants
                 while True:
-                    show_bookshelf_read(books, wishlist)
                     name_book = CLI.request_name_book_read(books, wishlist)
                     book = find_unique_book(books, name_book)
                     if book is None:
@@ -115,6 +121,7 @@ def info_book_read(books, wishlist):
             CLI.show_to_user("Please choose a number between 1-3!")
             raise ValueError
 
+
 def show_information_book(books, wishlist):
     """
     Show some information about one book
@@ -126,6 +133,7 @@ def show_information_book(books, wishlist):
     for book in books:
         index += 1
         CLI.show_to_user(f"{index}. {book['name']} \n{book.get('rating')} stars \nFinish date: {book.get('date')} \nDetails: {book.get('informations')}")
+
 
 def show_bookshelf_read(books, wishlist):
     """

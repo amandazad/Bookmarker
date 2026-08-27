@@ -64,42 +64,47 @@ def move_book(books, wishlist):
     #it is going to move books between shelves
     while True:
         try:
-            if len(wishlist) == 0:
+            if len(books) == 0 and len(wishlist) == 0:
                 CLI.show_to_user("There's no books in your bookshelf, please add one book.")
                 return
-            if len(books) == 0:
-                CLI.show_to_user("There's no books in your bookshelf, please add one book.")
-                return
-            book_name = CLI.request_move_books()
+            book_name = CLI.request_move_books_name()
             book_name = int(book_name)
             if book_name == 1:
                 #move from wishlist to read books
-                try:
-                    wishlist_bookshelf.show_bookshelf_wish(books, wishlist)
-                    move = CLI.request_move_books()
-                    move = int(move)
-                    book_wish = wishlist[move -1]
-                    del wishlist[move -1]
-                    books.append(book_wish)
-                    save_data(books, wishlist)
-                    CLI.show_to_user("Your book now is in read books!")
-                    break
-                except:
-                    CLI.show_to_user("Invalid book, please select a number.")
+                if len(wishlist) == 0:
+                    CLI.show_to_user("There's no books in your wishlist, please add one book.")
+                    return
+                else:
+                    try:
+                        wishlist_bookshelf.show_bookshelf_wish(books, wishlist)
+                        move = CLI.request_move_books()
+                        move = int(move)
+                        book_wish = wishlist[move -1]
+                        del wishlist[move -1]
+                        books.append(book_wish)
+                        save_data(books, wishlist)
+                        CLI.show_to_user("Your book now is in read books!")
+                        break
+                    except:
+                        CLI.show_to_user("Invalid book, please select a number.")
             if book_name == 2:
                 #move from read books to wishlist
-                try:
-                    read_books_shelf.show_bookshelf_read(books, wishlist)
-                    move = CLI.request_move_books()
-                    move = int(move)
-                    book_read = books[move -1]
-                    del books[move -1]
-                    wishlist.append(book_read)
-                    save_data(books, wishlist)
-                    CLI.show_to_user("Your book now is in wishlist books!")
-                    break
-                except:
-                    CLI.show_to_user("Invalid book, please select a number.")
+                if len(books) == 0:
+                    CLI.show_to_user("There's no books in your read books, please add one book.")
+                    return
+                else:
+                    try:
+                        read_books_shelf.show_bookshelf_read(books, wishlist)
+                        move = CLI.request_move_books()
+                        move = int(move)
+                        book_read = books[move -1]
+                        del books[move -1]
+                        wishlist.append(book_read)
+                        save_data(books, wishlist)
+                        CLI.show_to_user("Your book now is in wishlist books!")
+                        break
+                    except:
+                        CLI.show_to_user("Invalid book, please select a number.")
         except:
             CLI.show_to_user("Please, choose a number from 1-2.")
 
@@ -109,6 +114,9 @@ def search_book(books, wishlist):
     Search and locate the book the user wants to find
     it is going to show every book with that word/title that is in some if the bookshelfs
     """
+    if len(books) == 0 and len(wishlist) == 0:
+        CLI.show_to_user("There's no book in your bookshelves!")
+        return
     ask_name_book = CLI.request_name_book()
     books_local = find_books(books, ask_name_book)
     wishlist_local = find_books(wishlist, ask_name_book)
