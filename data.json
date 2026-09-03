@@ -1,0 +1,18 @@
+{
+    "books": [
+        {
+            "name": "Harry Potter and the Philosopher Stone",
+            "rating": "5",
+            "date": "23/03/2020",
+            "informations": "This is the first book of Harry Potter, where the magic begins \ud83c\udf1f"
+        }
+    ],
+    "wishlist": [
+        {
+            "name": "The Lord of the Rings"
+        },
+        {
+            "name": "Harry Potter and the Chamber of Secrets"
+        }
+    ]
+}

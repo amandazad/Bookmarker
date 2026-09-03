@@ -37,10 +37,16 @@ def load_data():
             return data["books"], data["wishlist"]
     except FileNotFoundError:
         return [], []
+    except json.JSONDecodeError:
+        return [], []
 
 
 def save_data(books, wishlist):
     #this one is for writing, so it is going to save the edited data
     data = {"books": books, "wishlist": wishlist}
-    with open("data.json", "w") as file:
-        json.dump(data, file, indent=4)
+    try:
+        with open("data.json", "w") as file:
+            json.dump(data, file, indent=4)
+    except OSError:
+        import CLI
+        CLI.show_to_user("There was a problem saving your data.")
