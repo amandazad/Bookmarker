@@ -50,3 +50,26 @@ def save_data(books, wishlist):
     except OSError:
         import CLI
         CLI.show_to_user("There was a problem saving your data.")
+
+
+def update_data_users(users):
+    #this one is for writing, so it is going to save the edited data
+    data = {"users": users}
+    try:
+        with open("users.json", "w") as file:
+            json.dump(data, file, indent=4)
+    except OSError:
+        import CLI
+        CLI.show_to_user("There was a problem making your login.")
+
+
+def load_data_users():
+    #this is for when the user is reading, which is going to only load the data
+    try:
+        with open("users.json", "r") as file:
+            data = json.load(file)
+            return data["users"]
+    except FileNotFoundError:
+        return {}
+    except json.JSONDecodeError:
+        return {}

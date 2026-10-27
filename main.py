@@ -17,7 +17,7 @@ def get_input():
             CLI.show_to_user("Invalid option. Try again")
 
 
-def main():
+def show_cli():
     #creates the lists and calls the function based on the input chosen
     from utils import load_data 
     books, wishlist = load_data()
@@ -140,6 +140,7 @@ def exit(books, wishlist):
     import sys
     sys.exit(0)
 
+
 #dictionary for the functions
 option_to_function = {}
 option_to_function[1] = books_shelf_menu
@@ -149,4 +150,4 @@ option_to_function[4] = search_book
 option_to_function[5] = exit
 
 if __name__ == "__main__":
-    main()
+    show_cli()

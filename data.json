@@ -1,15 +1,33 @@
 {
     "books": [
         {
-            "name": "Harry Potter and the Philosopher Stone",
+            "name": "Harry Potter and the Philosofer Stone",
             "rating": "5",
-            "date": "23/03/2020",
-            "informations": "This is the first book of Harry Potter, where the magic begins \ud83c\udf1f"
+            "date": "10/03/2020",
+            "informations": "Welcome to the magic world of Harry Potter \ud83c\udf1f"
+        },
+        {
+            "name": "Harry Potter and the Chamber of Secrets",
+            "rating": "5",
+            "date": "20/03/2020",
+            "informations": "Who is Tom Marvolo Riddle? \ud83d\udd2e"
+        },
+        {
+            "name": "Harry Potter and the Prisioner of Azkaban"
         }
     ],
     "wishlist": [
         {
-            "name": "Harry Potter and the Chamber of Secrets"
+            "name": "Harry Potter and the Globet of Fire"
+        },
+        {
+            "name": "Harry Potter and the Phoenix Order"
+        },
+        {
+            "name": "Harry Potter and the Half-Bloof Prince"
+        },
+        {
+            "name": "Harry Potter and the Deathly Hallows"
         }
     ]
 }
