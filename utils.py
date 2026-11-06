@@ -3,6 +3,8 @@ This module contains helper functions.
 """
 import json
 
+from pathlib import Path
+
 def find_books(lst, ask_name_book):
     #to locate if the book is in the system already and return the list
     result_list = []
@@ -28,11 +30,13 @@ def find_unique_book(lst, ask_name_book):
     CLI.show_to_user("You don't have this book on the list.")
     return None
 
+DATA_FILE = Path(__file__).resolve().parent / "data.json"
+USERS_FILE = Path(__file__).resolve().parent / "users.json"
 
 def load_data():
     #this is for when the user is reading, which is going to only load the data
     try:
-        with open("data.json", "r") as file:
+        with open(DATA_FILE, "r") as file:
             data = json.load(file)
             return data["books"], data["wishlist"]
     except FileNotFoundError:
@@ -45,7 +49,7 @@ def save_data(books, wishlist):
     #this one is for writing, so it is going to save the edited data
     data = {"books": books, "wishlist": wishlist}
     try:
-        with open("data.json", "w") as file:
+        with open(DATA_FILE, "w") as file:
             json.dump(data, file, indent=4)
     except OSError:
         import CLI
@@ -56,7 +60,7 @@ def update_data_users(users):
     #this one is for writing, so it is going to save the edited data
     data = {"users": users}
     try:
-        with open("users.json", "w") as file:
+        with open(USERS_FILE, "w") as file:
             json.dump(data, file, indent=4)
     except OSError:
         import CLI
@@ -66,7 +70,7 @@ def update_data_users(users):
 def load_data_users():
     #this is for when the user is reading, which is going to only load the data
     try:
-        with open("users.json", "r") as file:
+        with open(USERS_FILE, "r") as file:
             data = json.load(file)
             return data["users"]
     except FileNotFoundError:

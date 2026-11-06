@@ -42,6 +42,22 @@ def request_wishlist():
     option = input("Choose an option: ")
     return option
 
+def show_bookshelf_read(books, wishlist):
+    print("\033[1;93m\n --- Your read books --- \n\033[0m")
+    if len(books) == 0:
+        print("There's no books in your bookshelf, please add one book.")
+    else:
+        for index, book in enumerate(books):
+            print(f"{index + 1}. {book['name']}")
+
+def show_bookshelf_wish(books, wishlist):
+    print("\033[1;96m\n --- Your wishlist --- \n\033[0m")
+    if len(wishlist) == 0:
+        print("There's no books in your wishlist, please add one book.")
+    else:
+        for index, book in enumerate(wishlist):
+            print(f"{index + 1}. {book['name']}")
+
 def request_move_books_name():
     book_name = input(" 1. Move from wishlist to read books \n 2. Move from read books to wishlist \n What do you want to do? ")
     return book_name
