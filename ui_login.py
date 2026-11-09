@@ -1,11 +1,8 @@
 import streamlit as st
 
-from ui_dashboard import open_dashboard
-
 def verify_login(username: str, password: str):
     if username and password:
         st.success("Credential received successfully!", width="stretch")
-        open_dashboard()
     else:
         st.warning("Empty credentials are not allowed. Please try again!", width="stretch")
         

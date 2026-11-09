@@ -134,5 +134,5 @@ def add_book_to_bookshelf():
 def add_book_to_wishlist():
     pass
 
-
+# Run on import!
 open_dashboard()
