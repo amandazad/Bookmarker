@@ -1,4 +1,12 @@
+from unicodedata import name
+
 import streamlit as st
+import sys
+from pathlib import Path
+
+project_root = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(project_root))
+
 import utils
 
 def open_dashboard():
@@ -79,9 +87,12 @@ def show_bookshelf_read(books, wishlist):
                     key=f"edit_{index}",
                 )
                 columns[5].button(
-                    "Remove",
+                    "🗑️",
                     key=f"remove_{index}",
+                    on_click=remove_book_from_bookshelf,
+                    args=(index, books, wishlist),
                 )
+
 
 def show_bookshelf_wishlist(books, wishlist):
     with st.form(key="wish_item_form", border=False):
@@ -123,16 +134,50 @@ def show_bookshelf_wishlist(books, wishlist):
                     key=f"edit_wishlist_{index}",
                 )
                 columns[2].button(
-                    "Remove",
+                    "🗑️",
                     key=f"remove_wishlist_{index}",
+                    on_click=remove_book_from_wishlist,
+                    args=(index, books, wishlist),
                 )
 
 
+def remove_book_from_bookshelf(index, books, wishlist):
+    books.pop(index)
+    utils.save_data(books, wishlist)
+
+
+def remove_book_from_wishlist(index, books, wishlist):
+    wishlist.pop(index)
+    utils.save_data(books, wishlist)
+
+
 def add_book_to_bookshelf():
-    pass
+    books, wishlist = utils.load_data()
+    new_book = {
+        "name": st.session_state.name,
+        "rating": st.session_state.rating,
+        "date": str(st.session_state.date),
+        "informations": st.session_state.informations
+    }
+    if not name:
+            st.warning("Please enter a book name.")
+            return
+
+    books.append(new_book)
+    utils.save_data(books, wishlist)
+
 
 def add_book_to_wishlist():
-    pass
+    books, wishlist = utils.load_data()
+    name = st.session_state.w_name.strip()
+
+    if not name:
+        st.warning("Please enter a book name.")
+        return
+    
+    wishlist.append({"name": name})
+    utils.save_data(books, wishlist)
+
 
 # Run on import!
 open_dashboard()
