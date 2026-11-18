@@ -3,6 +3,7 @@ from unicodedata import name
 import streamlit as st
 import sys
 from pathlib import Path
+from datetime import date
 
 project_root = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(project_root))
@@ -85,6 +86,8 @@ def show_bookshelf_read(books, wishlist):
                 columns[4].button(
                     "Edit",
                     key=f"edit_{index}",
+                    on_click=start_edit_bookshelf,
+                    args=(index,),
                 )
                 columns[5].button(
                     "🗑️",
@@ -92,6 +95,24 @@ def show_bookshelf_read(books, wishlist):
                     on_click=remove_book_from_bookshelf,
                     args=(index, books, wishlist),
                 )
+        
+        if "edit_bookshelf_index" in st.session_state:
+            st.subheader("Edit Book")
+            with st.form(key="edit_book_form"):
+
+                st.text_input("Book name", key="edit_name")
+                st.text_input("Rate the book", key="edit_rating")
+                st.date_input(
+                    "Date of reading",
+                    key="edit_date",
+                    format="YYYY-MM-DD",
+                )
+                st.text_input("Add details about the book", key="edit_informations")
+                st.form_submit_button(
+                    "Save Changes",
+                    on_click=edit_book_in_bookshelf,
+                )
+
 
 
 def show_bookshelf_wishlist(books, wishlist):
@@ -132,6 +153,8 @@ def show_bookshelf_wishlist(books, wishlist):
                 columns[1].button(
                     "Edit",
                     key=f"edit_wishlist_{index}",
+                    on_click=start_edit_wishlist,
+                    args=(index,),
                 )
                 columns[2].button(
                     "🗑️",
@@ -140,15 +163,15 @@ def show_bookshelf_wishlist(books, wishlist):
                     args=(index, books, wishlist),
                 )
 
+                if "edit_wishlist_index" in st.session_state:
+                    st.subheader("Edit Wishlist Book")
+                    with st.form(key="edit_wishlist_form"):
 
-def remove_book_from_bookshelf(index, books, wishlist):
-    books.pop(index)
-    utils.save_data(books, wishlist)
-
-
-def remove_book_from_wishlist(index, books, wishlist):
-    wishlist.pop(index)
-    utils.save_data(books, wishlist)
+                        st.text_input("Book name", key="edit_w_name")
+                        st.form_submit_button(
+                            "Save Changes",
+                            on_click=edit_book_in_wishlist,
+                        )
 
 
 def add_book_to_bookshelf():
@@ -159,6 +182,7 @@ def add_book_to_bookshelf():
         "date": str(st.session_state.date),
         "informations": st.session_state.informations
     }
+    name = st.session_state.name.strip()
     if not name:
             st.warning("Please enter a book name.")
             return
@@ -176,6 +200,71 @@ def add_book_to_wishlist():
         return
     
     wishlist.append({"name": name})
+    utils.save_data(books, wishlist)
+
+
+def start_edit_bookshelf(index):
+    books, wishlist = utils.load_data()
+    book = books[index]
+
+    st.session_state.edit_bookshelf_index = index
+    st.session_state.edit_name = book["name"]
+    st.session_state.edit_rating = book.get("rating", "")
+    st.session_state.edit_date = (
+    date.fromisoformat(book["date"])
+    if book.get("date")
+    else None
+)
+    st.session_state.edit_informations = book.get("informations", "")
+
+def edit_book_in_bookshelf():
+    books, wishlist = utils.load_data()
+
+    index = st.session_state.edit_bookshelf_index
+
+    fields = {
+        "name": st.session_state.edit_name,
+        "rating": st.session_state.edit_rating,
+        "date": str(st.session_state.edit_date),
+        "informations": st.session_state.edit_informations
+    }
+
+    books[index].update(fields)
+
+    utils.save_data(books, wishlist)
+
+    del st.session_state.edit_bookshelf_index
+
+def start_edit_wishlist(index):
+    books, wishlist = utils.load_data()
+    book = wishlist[index]
+
+    st.session_state.edit_wishlist_index = index
+    st.session_state.edit_w_name = book["name"]
+
+def edit_book_in_wishlist():
+    books, wishlist = utils.load_data()
+
+    index = st.session_state.edit_wishlist_index
+
+    fields = {
+        "name": st.session_state.edit_w_name
+    }
+
+    wishlist[index].update(fields)
+
+    utils.save_data(books, wishlist)
+
+    del st.session_state.edit_wishlist_index
+
+
+def remove_book_from_bookshelf(index, books, wishlist):
+    books.pop(index)
+    utils.save_data(books, wishlist)
+
+
+def remove_book_from_wishlist(index, books, wishlist):
+    wishlist.pop(index)
     utils.save_data(books, wishlist)
 
 
